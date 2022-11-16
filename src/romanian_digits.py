@@ -1,31 +1,13 @@
 # not optimal
 class Solution:
-    roma = ["I","V", "X", "L", "C", "D", "M"]
-    deci = [1,5,10,50,100,500,1000]
-    roma_deci = {key:val for key,val in zip(roma,deci)}
-
 
     def romanToInt(self, s: str) -> int:
-        spicial_symbols = self.decrised_symbols()
+        roman = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
         result = 0
-        for key,val in spicial_symbols.items():
-            if key in s:
-                s = s.replace(key,'')
-                result += val
-        if s:
-            for symbol in s:
-                result += self.roma_deci[symbol]
-        return result
-
-
-    def decrised_symbols(self)->dict:
-        special = {}
-        decrisand = tuple([self.roma[0], 1])
-        for ind, sym in enumerate(self.roma):
-            if ind ==0:
-                continue
-            special[decrisand[0]+sym] = self.deci[ind] - decrisand[1]
-            if ind % 2 == 0:
-                decrisand = self.roma[ind], self.deci[ind]
-        return special
+        for ind in range(len(s)-1):
+            if roman[s[ind]] < roman[s[ind+1]]:
+                result -= roman[s[ind]]
+            else:
+                result += roman[s[ind]]
+        return result + roman[s[-1]]
 
